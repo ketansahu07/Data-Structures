@@ -1,0 +1,50 @@
+//https://practice.geeksforgeeks.org/problems/the-modified-string/1/?track=SPC-Strings&batchId=154
+
+
+int modified (string a){
+    // int count=1;
+    // int res=0;
+    // int flag=0;
+    // for(int i=1;i<a.length();i++)
+    // {
+    //     if(a[i-1]==a[i])
+    //     {
+    //         count++;
+    //         flag=0;
+    //     }
+    //     else
+    //     {
+    //         flag=1;
+    //         if(count%2==0)
+    //             res=res+(count/2)-1;
+    //         else
+    //             res=res+count/2;
+            
+    //         count=1;
+    //     }
+    // }
+    // if(flag==0)
+    // {
+    //     if(count%2==0)
+    //         res=res+(count/2)-1;
+    //     else
+    //         res=res+count/2;
+    // }
+    // return res;
+    
+    int len=a.length();
+    int count=0;
+    if(len<3)
+        return 0;
+    int i=2;
+    while(i<len)
+    {
+        if(a[i-1]==a[i] && a[i-2]==a[i-1])
+        {
+            count++;
+            i++;
+        }
+        i++;
+    }
+    return count;
+}

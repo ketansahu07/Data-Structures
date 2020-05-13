@@ -1,0 +1,36 @@
+//https://practice.geeksforgeeks.org/problems/remove-common-characters-and-concatenate/0/?track=sp-arrays-and-searching&batchId=152
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string s,q;
+        cin>>s>>q;
+        int count1[26]={0};
+        int count2[26]={0};
+        string temp="";
+        for(int i=0;i<s.size();i++)
+            count1[s[i]-'a']++;
+        for(int i=0;i<q.size();i++)
+            count2[q[i]-'a']++;
+        for(int i=0;i<s.size();i++)
+        {
+            if(count1[s[i]-'a']>0 && count2[s[i]-'a']==0)
+                temp+=s[i];
+        }
+        for(int i=0;i<q.size();i++)
+        {
+            if(count2[q[i]-'a']>0 && count1[q[i]-'a']==0)
+                temp+=q[i];
+        }
+        if(temp!="")
+            cout<<temp<<endl;
+        else
+            cout<<-1<<endl;
+    }
+}

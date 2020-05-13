@@ -1,0 +1,35 @@
+//https://practice.geeksforgeeks.org/problems/kth-smallest-element/0
+//a better solution is here--
+// https://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n,k;
+	    cin>>n;
+	   // set<int> s;
+	   int a[n];
+	    for(int i=0;i<n;i++)
+	    {
+	       // int x;
+	       // cin>>x;
+	       // s.insert(x);
+	       cin>>a[i];
+	    }
+	    cin>>k;
+	   // auto i=s.begin();
+	   sort(a,a+n);
+	    for(int j=0;j<k;j++)
+	    {
+	        if(j==k-1)
+	        cout<<a[j]<<endl;
+	    }
+	   // cout<<*i<<endl;
+	}
+	return 0;
+}

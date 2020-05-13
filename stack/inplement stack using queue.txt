@@ -1,0 +1,25 @@
+//implement stack using two queues
+//https://practice.geeksforgeeks.org/problems/stack-using-two-queues/1
+
+int QueueStack :: pop()
+{
+        int temp = -1;
+        if(q1.empty()) return temp;
+        while(1)
+        {
+            temp = q1.front();
+            q1.pop();
+            if(q1.empty())
+            {
+                break;
+            }
+            else
+            q2.push(temp);
+        }
+        while(!q2.empty())
+        {
+            q1.push(q2.front());
+            q2.pop();
+        }
+        return temp;
+}

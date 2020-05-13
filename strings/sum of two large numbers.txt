@@ -1,0 +1,49 @@
+//https://practice.geeksforgeeks.org/problems/sum-of-numbers-or-number/0/?track=sp-arrays-and-searching&batchId=152
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    string s,q;
+	    cin>>s>>q;
+	    reverse(s.begin(),s.end());
+	    reverse(q.begin(),q.end());
+        string temp;
+        int i=0,j=0;
+        int carry=0;
+        int sum;
+        while(i<s.size()&&j<q.size())
+        {
+            sum=s[i++]-'0' + q[j++]-'0' + carry;
+            temp+=sum%10+'0';
+            carry=sum/10;
+        }
+        while(i<s.size())
+        {
+            sum=s[i++]-'0'+carry;
+            temp+=(sum%10+'0');
+            carry=sum/10;
+        }
+        while(j<q.size())
+        {
+            sum=q[j++]-'0'+carry;
+            temp+=(sum%10+'0');
+            carry=sum/10;
+        }
+        if(carry!=0)
+            temp+=carry+'0';
+        reverse(temp.begin(),temp.end());
+        if(temp.size()==s.size())
+            cout<<temp<<endl;
+        else
+        {
+            reverse(s.begin(),s.end());
+            cout<<s<<endl;
+        }
+	}
+	return 0;
+}

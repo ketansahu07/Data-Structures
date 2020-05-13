@@ -1,0 +1,67 @@
+//https://practice.geeksforgeeks.org/problems/distance-of-nearest-cell-having-1/1/?track=SPC-Graph&batchId=154
+
+void bfs(vector<vector<int>> arr,vector<vector<bool>> &vis,vector<vector<int>> &dist,int row,int col)
+{
+    queue<pair<int,int>> q;
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<col;j++)
+        {
+            if(arr[i][j]==1)
+            {
+                dist[i][j]=0;
+                vis[i][j]=true;
+                q.push(make_pair(i,j));
+            }
+            else
+                dist[i][j]=INT_MAX;
+        }
+    }
+    while(!q.empty())
+    {
+        pair<int,int> u=q.front();
+        q.pop();
+        int a=u.first;
+        int b=u.second;
+        int x=dist[a][b];
+        if(a-1>=0 && !vis[a-1][b]){
+            vis[a-1][b]=true;
+            dist[a-1][b]=min(dist[a-1][b],x+1);
+            q.push(make_pair(a-1,b));
+        }
+        if(a+1<row && !vis[a+1][b]){
+            vis[a+1][b]=true;
+            dist[a+1][b]=min(dist[a+1][b],x+1);
+            q.push(make_pair(a+1,b));
+        }
+        if(b-1>=0 && !vis[a][b-1]){
+            dist[a][b-1]=min(dist[a][b-1],x+1);
+            vis[a][b-1]=true;
+            q.push(make_pair(a,b-1));
+        }
+        if(b+1<col && !vis[a][b+1]){
+            dist[a][b+1]=min(dist[a][b+1],x+1);
+            vis[a][b+1]=true;
+            q.push(make_pair(a,b+1));
+        }
+    }
+}
+ 
+void nearest(vector<vector<int>> arr, int row, int col) {
+
+    vector<vector<int>> dist(row);
+    for(int i=0;i<row;i++)
+    {
+        vector<int> t(col);
+        dist[i]=t;
+    }
+    vector<vector<bool>> vis(row,vector<bool>(col,false));
+    bfs(arr,vis,dist,row,col);
+
+    print(dist,row,col);
+    /************
+     * After completing the logic
+     * Just call the print function
+     * provided in the locked part
+     * **********/
+}

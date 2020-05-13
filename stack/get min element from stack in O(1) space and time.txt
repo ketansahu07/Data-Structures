@@ -1,0 +1,11 @@
+https://www.geeksforgeeks.org/design-a-stack-that-supports-getmin-in-o1-time-and-o1-extra-space/
+
+while pushing the element
+if stack is empty simply push but if the stack is not empty then push 2*x-minele
+
+while poping the element
+if y is greater then minele then simply pop but if y is smaller than y then pop 2*minele-y
+
+// there is another way to maintain a min stack that store the current min element and whenever while popping elements
+// is the popped element is equal to the last min element than pop one element from the min stack and the new top 
+// element will be the new min element now ----Guruprasad :)

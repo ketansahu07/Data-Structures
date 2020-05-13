@@ -1,0 +1,21 @@
+//https://practice.geeksforgeeks.org/problems/distinct-pattern-search/1/?track=SPC-Strings&batchId=154
+
+bool search(string pat, string txt) 
+{ 
+	int n = txt.length();
+	int m = pat.length();
+	int j;
+	for(int i=0;i<=n-m;)
+	{
+	    for(j=0;j<m;j++)
+	        if(txt[i+j]!=pat[j])
+	            break;
+        if(j==m)
+            return true;
+        if(j==0)
+            i++;
+        else
+            i=i+j;
+	}
+	return false;
+}

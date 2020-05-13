@@ -1,0 +1,39 @@
+https://practice.geeksforgeeks.org/problems/uncommon-characters/0/?track=SPCF-Hashing&batchId=154
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void uncommon(string s, string t)
+{
+    char m[26]={0};
+    char n[26]={0};
+    for(int i=0;i<s.length();i++)
+    {
+        m[s[i]-'a']=1;
+    }
+    for(int i=0;i<t.length();i++)
+    {
+        n[t[i]-'a']=1;
+    }
+    
+    for(int i=0;i<26;i++)
+    {
+        if(m[i]!=n[i])
+        cout<<char('a'+i);
+    }
+    cout<<endl;
+}
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n;
+	    string s,t;
+	    cin>>s;
+	    cin>>t;
+	    uncommon(s,t);
+	}
+	return 0;
+}

@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct node{
+    int data;
+    node* left;
+    node* right;
+    node(int d)
+    {
+        left = right = NULL;
+        data = d;
+    }
+};
+
+node* insertNode(int data, node* root)
+{
+    node* temp;
+    if(!root) return temp = new node(data);
+
+    if(data<root->data)
+        root->left = insertNode(data,root->left);
+    else
+        root->right = insertNode(data,root->right);
+}
+
+void inorder(node* root)
+{
+    if(!root) return;
+    inorder(root->left);
+    cout<<root->data<<" ";
+    inorder(root->right);
+}
+
+int main()
+{
+    node* root = NULL;
+    root = insertNode(5,root);
+    root = insertNode(2,root);
+    root = insertNode(9,root);
+    root = insertNode(4,root);
+    root = insertNode(6,root);
+    inorder(root);
+    return 0;
+}

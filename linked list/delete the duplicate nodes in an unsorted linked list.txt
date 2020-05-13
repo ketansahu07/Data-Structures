@@ -1,0 +1,27 @@
+Node *removeDuplicates(Node *root)
+{
+    unordered_set<int> s;
+    if(!root)
+    return NULL;
+    
+    Node* cur = root->next;
+    Node* pr = root;
+    s.insert(pr->data);
+    while(cur!=NULL)
+    {
+        if(s.find(cur->data)!=s.end())
+        {
+            pr->next = cur->next;
+            free(cur);
+            cur = pr->next;
+        }
+        else
+        {
+	    s.insert(cur->data);
+            pr = cur;
+            cur = cur->next;
+        }
+    }
+    
+    return root;
+}

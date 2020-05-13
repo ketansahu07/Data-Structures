@@ -1,0 +1,22 @@
+// Floyed's slow and fast pointer approach
+
+int detectloop(Node *head) {
+    
+    if(!head) return NULL;
+    
+    Node *slow=head, *fast=head;
+    
+    while(slow && fast && fast->next)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+        if(slow == fast)
+        return 1;
+    }
+    
+    return 0;
+}
+
+// There is another way to do this, that is using hashing.
+// if head is not null then for each node check if it is found in unordered_map then return true else push the node
+// into the map and increment head. when loop ends return 0

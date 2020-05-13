@@ -1,0 +1,27 @@
+//https://practice.geeksforgeeks.org/problems/possible-paths-between-2-vertices/1/?track=SPC-Graph&batchId=154
+
+void dfs(list<int> *adj,bool vis[],int s,int d,int &path)
+{
+    if(s==d)
+    {
+        path++;
+        return;
+    }
+    vis[s]=true;
+    for(int v:adj[s])
+    {
+        if(vis[v]==false)
+            dfs(adj,vis,v,d,path);
+    }
+    vis[s]=false;
+}
+
+// Function to find paths between 2 nodes
+int Graph::countPaths(int s, int d) {
+    bool visited[V];
+    memset(visited,false,sizeof(visited));
+    
+    int path = 0;
+    dfs(adj,visited,s,d,path);
+    return path;
+}

@@ -1,0 +1,32 @@
+int getMiddle(Node *head)
+{
+   // Your code here
+   if(!head) return -1;
+   
+   Node* first, *mid;
+   
+   if(head->next->next)
+    {
+        first = head->next->next;
+        mid = head->next;
+    }
+    else
+        return head->next->data;
+   
+   while(mid!=NULL)
+   {
+       if(first == NULL)
+       {
+           return mid->data;
+       }
+       else
+       {
+           first = first->next;
+           if(first!=NULL)
+           {
+               first = first->next;
+               mid = mid->next;
+           }
+       }
+   }
+}

@@ -1,0 +1,38 @@
+//https://practice.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1/?track=SPC-Graph&batchId=154
+
+int minDistance(int dist[], int s[], int V)
+{
+    int m = INT_MAX, m_index;
+    //m for min
+    for(int v=0;v<V;v++)
+        if(s[v]==0 && dist[v]<=m)
+            m = dist[v], m_index=v;
+    
+    return m_index;
+}
+
+void dijkstra(vector<vector<int>> graph, int src, int V)
+{
+    int dist[V];
+    int s[V];
+    const int MAX = 10000;
+    memset(dist,MAX,sizeof(dist));
+    memset(s,0,sizeof(s));
+    dist[src] = 0;
+    
+    for(int i=0;i<V;i++)
+    {
+        int u = minDistance(dist,s,V);
+        
+        s[u] = 1;
+        
+        for(int v=0;v<V;v++)
+        {
+            if(s[v]==0 && graph[u][v] && dist[u]!=MAX && dist[u]+graph[u][v]<dist[v])
+                dist[v] = dist[u] + graph[u][v];
+        }
+    }
+    
+    for(int i=0;i<V;i++)
+        cout<<dist[i]<<" ";
+}

@@ -1,0 +1,47 @@
+// https://practice.geeksforgeeks.org/problems/minimum-platforms/0
+// https://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/
+
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int maxplatform(int a[], int d[], int n)
+{
+    int maxp=1,platform=1;
+    sort(a,a+n);
+    sort(d,d+n);
+    int i=1,j=0;
+    while(i<n && j<n)
+    {
+        if(a[i]<=d[j])
+        {
+            platform++;
+            i++;
+            if(maxp<platform)
+                maxp=platform;
+        }
+        else
+        {
+            platform--;
+            j++;
+        }
+    }
+    return maxp;
+}
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n;
+	    cin>>n;
+	    int a[n],d[n];
+	    for(int i=0;i<n;i++)
+	        cin>>a[i];
+        for(int i=0;i<n;i++)
+            cin>>d[i];
+        cout<<maxplatform(a,d,n)<<endl;
+	}
+	return 0;
+}

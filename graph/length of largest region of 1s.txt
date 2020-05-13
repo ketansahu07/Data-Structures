@@ -1,0 +1,40 @@
+//https://practice.geeksforgeeks.org/problems/length-of-largest-region-of-1s/1/?track=SPC-Graph&batchId=154
+
+void dfs(int g[][SIZE],int i,int j,bool vis[][SIZE],int &area,int n,int m)
+{
+    if(i<0 || j<0 || i>=n || j>=m)
+        return;
+    if(vis[i][j]==true || g[i][j]==0)
+        return;
+    vis[i][j]=true;
+    area++;
+    
+    dfs(g,i-1,j-1,vis,area,n,m);
+    dfs(g,i-1,j,vis,area,n,m);
+    dfs(g,i+1,j-1,vis,area,n,m);
+    dfs(g,i+1,j,vis,area,n,m);
+    dfs(g,i,j-1,vis,area,n,m);
+    dfs(g,i,j+1,vis,area,n,m);
+    dfs(g,i-1,j+1,vis,area,n,m);
+    dfs(g,i+1,j+1,vis,area,n,m);
+}
+
+int findMaxArea(int n, int m, int g[SIZE][SIZE] )
+{
+    bool vis[n][SIZE];
+    memset(vis,false,sizeof(vis));
+    int res=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(vis[i][j]==false && g[i][j]==1)
+            {
+                int temp_area=0;
+                dfs(g,i,j,vis,temp_area,n,m);
+                res=max(res,temp_area);  
+            }
+        }
+    }
+    return res;
+}

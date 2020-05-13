@@ -1,0 +1,53 @@
+//https://practice.geeksforgeeks.org/problems/find-whether-path-exist/0/?track=SPC-Graph&batchId=154
+
+#include<bits/stdc++.h>
+using namespace std;
+ 
+bool dfs(vector<int> mat[], int row, int col, int n, vector<bool> vis[])
+{
+    if(row<0 || row>=n || col<0 || col>=n || vis[row][col]==true || mat[row][col]==0)
+        return false;
+        
+    vis[row][col]=true;
+    
+    if(mat[row][col]==2)
+        return true;
+        
+    if(dfs(mat,row-1,col,n,vis) || dfs(mat,row,col-1,n,vis) || dfs(mat,row+1,col,n,vis) || dfs(mat,row,col+1,n,vis))
+        return true;
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        vector<int> mat[n];
+        vector<bool> vis[n];
+        
+        int s_row,s_col;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                int x;
+                cin>>x;
+                mat[i].push_back(x);
+                vis[i].push_back(false);
+                if(x==1)
+                {
+                    s_row=i;
+                    s_col=j;
+                }
+            }
+        }
+        
+        if(dfs(mat,s_row,s_col,n,vis))
+            cout<<1<<endl;
+        else
+            cout<<0<<endl;
+    }
+}

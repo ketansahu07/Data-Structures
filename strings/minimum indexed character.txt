@@ -1,0 +1,29 @@
+//https://practice.geeksforgeeks.org/problems/minimum-indexed-character/1/?track=SPC-Strings&batchId=154
+
+void printMinIndexChar(string str, string patt)
+{
+    int count[256];
+    memset(count,-1,sizeof(count));
+    for(int i=0;i<str.length();i++)
+    {
+        if(count[str[i]]==-1)
+            count[str[i]]=i;
+        // else
+        // {
+        //     count[str[i]]=min(count[str[i]],i);
+        // }
+    }
+    
+    int m=INT_MAX;
+    for(int i=0;i<patt.length();i++)
+    {
+        if(count[patt[i]]!=-1)
+        {
+            m=min(m,count[patt[i]]);
+        }
+    }
+    if(m==INT_MAX)
+        cout<<"No character present";
+    else
+        cout<<str[m];
+}

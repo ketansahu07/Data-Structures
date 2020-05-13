@@ -1,0 +1,25 @@
+
+long long int countsubarraywithequalzeroandone(int a[], int n)
+{
+    for(int i=0;i<n;i++)
+    {
+        if(a[i]==0)
+            a[i]=-1;
+    }
+    unordered_map<int,int> preSum;
+    long long int res = 0;
+    long long int curSum=0;
+    for(int i=0;i<n;i++)
+    {
+        curSum+=a[i];
+        
+        if(curSum==0)
+            res++;
+        
+        if(preSum.find(curSum)!=preSum.end())
+            res+=preSum[curSum];
+            
+        preSum[curSum]++;
+    }
+    return res;
+}

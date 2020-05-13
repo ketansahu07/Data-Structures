@@ -1,0 +1,47 @@
+// 1> the concept here is we reverse the linked list and the check each node if the node at its right is smaller
+// then we delete the node smaller one else we set the new max as the current node. O(n)
+// 2> there is an another way where we select each node and then check if there exist any node at its right that is
+// greater than the current node if exist then delete the current node. O(n2)
+
+Node *reverse(Node* head)
+{
+    Node *cur = head, *pr=NULL, *next=NULL;
+    while(cur)
+    {
+        next = cur->next;
+        cur->next = pr;
+        pr = cur;
+        cur = next;
+    }
+    return pr;
+}
+
+Node *compute(Node *head)
+{
+    if(!head) return NULL;
+    head = reverse(head);
+    
+    Node* cur = head, *pr = NULL, *temp=NULL;
+    int max = cur->data;
+    while(cur)
+    {
+        if(cur->data < max)
+        {
+            temp = cur->next;
+            if(pr) pr->next = cur->next;
+            free(cur);
+            cur = temp;
+            // max = cur->data;
+        }
+        else
+        {
+            max = cur->data;
+            pr = cur;
+            cur = cur->next;
+        }
+    }
+    
+    head = reverse(head);
+    
+    return head;
+}

@@ -1,0 +1,116 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef struct linkedList* node;
+struct linkedList{
+    int data;
+    node next;
+};
+
+node new_node()
+{
+    node temp;
+    temp=(node)malloc(sizeof(struct linkedList));
+    temp->next=NULL;
+    return temp;
+}
+
+node insert(node head, int value)
+{
+    node temp, p;
+    temp=new_node();
+    temp->data=value;
+    if(head==NULL)
+        head=temp;
+    else{
+        p=head;
+        while(p->next!=NULL)
+        {
+            p=p->next;
+        }
+        p->next=temp;
+    }
+    return head;
+}
+
+node reverse(node head)
+{
+    node past=NULL;
+    node current=head;
+    node fut=NULL;
+    while(current!=NULL)
+    {
+        fut=current->next;
+        current->next=past;
+        past=current;
+        current=fut;
+    }
+    return past;
+}
+
+node merge(node h1, node h2)
+{
+    node p=h1, q=h2, r=NULL;
+    while(p!=NULL && q!=NULL)
+    {
+        if(p->data<q->data)
+        {
+            r=insert(r,q->data);
+            q=q->next;
+        }
+        else
+        {
+            r=insert(r,p->data);
+            p=p->next;
+        }
+    }
+    while(p!=NULL)
+    {
+        r=insert(r,p->data);
+        p=p->next;
+    }
+    while(q!=NULL)
+    {
+        r=insert(r,q->data);
+        q=q->next;
+    }
+    return r;
+}
+
+void display(node head)
+{
+    node p=head;
+    if(head==NULL)
+    cout<<"empty"<<endl;
+    else{
+        while(p!=NULL){
+            cout<<p->data<<" ";
+            p=p->next;
+        }
+    }
+    cout<<endl;
+}
+
+int main()
+{
+    node head1=NULL;
+    node head2=NULL;
+    for(int i=30;i<36;i++)
+    {
+        head1=insert(head1,i);
+    }
+    for(int i=15;i<21;i++)
+    {
+        head2=insert(head2,i);
+    }
+    for(int i=40;i<46;i++)
+    {
+        head2=insert(head2,i);
+    }
+    head1=reverse(head1);
+    head2=reverse(head2);
+    display(head1);
+    display(head2);
+    node head3=merge(head1,head2);
+    display(head3);
+    return 0;
+}

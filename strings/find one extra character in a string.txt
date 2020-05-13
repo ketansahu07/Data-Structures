@@ -1,0 +1,78 @@
+https://www.geeksforgeeks.org/find-one-extra-character-string/
+
+// CPP program to find extra character in one  
+// string 
+#include <bits/stdc++.h> 
+using namespace std; 
+  
+char findExtraCharcter(string strA, string strB) 
+{ 
+    // store string values in map 
+    unordered_map<char, int> m1; 
+  
+    // store second string in map with frequency 
+    for (int i = 0; i < strB.length(); i++) 
+        m1[strB[i]]++; 
+  
+    // store first string in map with frequency 
+    for (int i = 0; i < strA.length(); i++) 
+        m1[strA[i]]--; 
+  
+    for (auto h1 = m1.begin(); h1 != m1.end(); h1++) { 
+  
+        // if the frequency is 1 then this 
+        // character is which is added extra 
+        if (h1->second == 1) 
+            return h1->first; 
+    } 
+} 
+  
+int main() 
+{ 
+    // given string 
+    string strA = "abcd"; 
+    string strB = "cbdad"; 
+  
+    // find Extra Character 
+    cout << findExtraCharcter(strA, strB); 
+} 
+====================================================================================================
+using bits: XOR
+xor all char of string 1 and string 2 at the end you will get the extra char.
+====================================================================================================
+#include <iostream> 
+using namespace std; 
+  
+char findExtraCharcter(string strA, string strB) 
+{ 
+    // result store the result 
+    int res = 0, i; 
+  
+    // traverse string A till end and  
+    // xor with res 
+    for (i = 0; i < strA.length(); i++) { 
+  
+        // xor with res 
+        res ^= strA[i]; 
+    } 
+  
+    // traverse string B till end and  
+    // xor with res 
+    for (i = 0; i < strB.length(); i++) { 
+  
+        // xor with res 
+        res ^= strB[i]; 
+    } 
+  
+    // print result at the end 
+    return ((char)(res)); 
+} 
+  
+int main() 
+{ 
+    // given string 
+    string strA = "abcd"; 
+    string strB = "cbdad"; 
+    cout << findExtraCharcter(strA, strB); 
+    return 0; 
+} 

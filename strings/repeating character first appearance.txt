@@ -1,0 +1,16 @@
+//https://practice.geeksforgeeks.org/problems/repeating-character-first-appearance-leftmost/1/?track=SPC-Strings&batchId=154
+
+int repeatedCharacter (string s) 
+{ 
+    int fi[256];
+    int res = INT_MAX;
+    memset(fi,-1,sizeof(fi));
+    for(int i=s.length()-1;i>=0;i--)
+    {
+        if(fi[s[i]]==-1)
+            fi[s[i]]=i;
+        else
+            res=i;
+    }
+    return (res==INT_MAX)?-1:res;
+}

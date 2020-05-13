@@ -1,0 +1,62 @@
+//https://practice.geeksforgeeks.org/problems/find-median-in-a-stream/1/?track=SPC-Heap&batchId=154
+
+//max is the max heap for smaller vlaues and min is the min heap for larger values
+
+void FindMedian::insertHeap(int &x)
+{
+    if(max.size()==0)
+    {
+        max.push(x);
+        return;
+    }
+	if(max.size()>min.size())
+	{
+	    if(max.top()>x)
+	    {
+	       // max.push(min.top());
+	       // min.pop();
+	        balanceHeaps();
+	        max.push(x);
+	    }
+	    else
+	        min.push(x);
+	}
+	else
+	{
+	    if(x<=max.top())
+	    {
+	        max.push(x);
+	    }
+	    else
+	    {
+	        min.push(x);
+	       // min.push(max.top());
+	       // max.pop();
+	        balanceHeaps();
+	    }
+	}
+}
+
+// Function to balance heaps
+void FindMedian::balanceHeaps()
+{
+    if(max.size()>min.size())
+    {
+        min.push(max.top());
+        max.pop();
+    }
+    else
+    {
+        max.push(min.top());
+        min.pop();
+    }
+}
+
+// Function to return getMedian
+double FindMedian::getMedian()
+{
+    if(max.size()==min.size())
+        return (min.top()+max.top())/2;
+    else
+        return max.top();
+}

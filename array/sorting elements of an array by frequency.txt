@@ -1,0 +1,44 @@
+// https://practice.geeksforgeeks.org/problems/sorting-elements-of-an-array-by-frequency/0/
+
+#include <iostream>
+#include <algorithm>
+#include <unordered_map>
+#include <vector>
+using namespace std;
+
+bool comp(const pair<int,int> n, const pair<int,int> m)
+{
+    if(n.second==m.second)
+        return n.first<m.first;
+    return n.second>m.second;
+}
+
+int arrange(int a[], int n)
+{
+    unordered_map<int,int> m;
+    for(int i=0;i<n;i++)
+        m[a[i]]+=1;
+        
+    vector<pair<int,int>> v;
+    copy(m.begin(),m.end(),back_inserter(v));
+    sort(v.begin(),v.end(),comp);
+    for(int i = 0 ; i < v.size() ; ++i)
+    for(int j = 0 ; j < v[i].second ; ++j)
+    cout <<v[i].first<<" ";
+    cout << endl;
+}
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n;
+	    cin>>n;
+	    int a[n];
+	    for(int i=0;i<n;i++)
+	        cin>>a[i];
+        arrange(a,n);
+	}
+	return 0;
+}

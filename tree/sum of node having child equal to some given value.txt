@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct node{
+  int data;
+  node* left;
+  node* right;
+  node(int d)
+  {
+      data = d;
+      left = right = NULL;
+  }
+};
+
+node* insertNode(int data, node* root)
+{
+    if(!root) return new node(data);
+    
+    if(data<root->data)
+    root->left = insertNode(data, root->left);
+    else
+    root->right = insertNode(data, root->right);
+}
+
+int sumNode(node* root, int key)
+{
+    if(!root) return 0;
+    
+    if((root->left && root->left->data==key) || (root->right && root->right->data==key))
+    {
+        return root->data+sumNode(root->left,key)+sumNode(root->right,key);
+    }
+    else
+    {
+        sumNode(root->left,key);
+        sumNode(root->right,key);
+    }
+}
+
+// void inorder(node* root)
+// {
+//     if(!root) return;
+//     inorder(root->left);
+//     cout<<root->data<<" ";
+//     inorder(root->right);
+// }
+
+int main()
+{
+    node* root = NULL;
+    root = insertNode(4,root);
+    root = insertNode(2,root);
+    root = insertNode(5,root);
+    root = insertNode(1,root);
+    root = insertNode(2,root);
+    root->right->left = new node(2);
+    
+    cout<<sumNode(root,2)<<endl;
+    // inorder(root);
+    return 0;
+}

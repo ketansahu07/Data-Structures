@@ -1,0 +1,21 @@
+//https://practice.geeksforgeeks.org/problems/most-occurring-elements/1/?track=SPC-Heap&batchId=154
+
+int print_N_mostFrequentNumber(int arr[], int n, int k) 
+{ 
+	unordered_map<int, int> m;
+	priority_queue<int> pq;
+	for(int i=0;i<n;i++)
+	    m[arr[i]]++;
+	    
+    for(auto &i:m)
+        pq.push(i.second);
+        
+    int res=0;
+    while(k--)
+    {
+        res+=pq.top();
+        pq.pop();
+    }
+    
+    return res;
+}

@@ -1,0 +1,52 @@
+void printleft(Node* root)
+{
+    if(!root) return;
+    
+    if(root->left)
+    {
+        cout<<root->data<<" ";
+        printleft(root->left);
+    }
+    else if(root->right)
+    {
+        cout<<root->data<<" ";
+        printleft(root->right);
+    }
+}
+
+void printleaf(Node* root)
+{
+    if(!root) return;
+    
+    printleaf(root->left);
+    if(!root->left && !root->right)
+        cout<<root->data<<" ";
+    printleaf(root->right);
+}
+
+void printright(Node* root)
+{
+    if(!root) return;
+    
+    if(root->right)
+    {
+        printright(root->right);
+        cout<<root->data<<" ";
+    }
+    else if(root->left)
+    {
+        printright(root->left);
+        cout<<root->data<<" ";
+    }
+}
+
+void printBoundary(Node *root)
+{
+     //Your code here
+     if(!root) return;
+     
+     cout<<root->data<<" ";
+     printleft(root->left);
+     printleaf(root);
+     printright(root->right);
+}

@@ -1,0 +1,46 @@
+//https://practice.geeksforgeeks.org/problems/-rearrange-array-alternately/0/?track=SPCF-Sorting&batchId=154
+//solution in O(1) space
+//else there is simple solution using two pointer and aux array if the array is sorted
+
+#include <iostream>
+using namespace std;
+
+void rearrange(long long a[],long long n)
+{
+    long long max_element=a[n-1]+1;
+    long long max_index=n-1;
+    long long min_index=0;
+    for(int i=0;i<n;i++)
+    {
+        if(i%2==0)
+        {
+            a[i]+=a[max_index]%max_element*max_element;
+            max_index--;
+        }
+        else
+        {
+            a[i]+=a[min_index]%max_element*max_element;
+            min_index++;
+        }
+    }
+    for(int i=0;i<n;i++)
+        a[i]=a[i]/max_element;
+}
+
+int main() {
+	long long t;
+	cin>>t;
+	while(t--)
+	{
+	    long long n;
+	    cin>>n;
+	    long long a[n];
+	    for(int i=0;i<n;i++)
+	        cin>>a[i];
+        rearrange(a,n);
+        for(int i=0;i<n;i++)
+            cout<<a[i]<<" ";
+        cout<<endl;
+	}
+	return 0;
+}

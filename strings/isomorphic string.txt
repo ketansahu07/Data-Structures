@@ -1,0 +1,26 @@
+//https://practice.geeksforgeeks.org/problems/isomorphic-strings/1/?track=SPC-Strings&batchId=154
+
+bool areIsomorphic(string str1, string str2)
+{
+    if(str1.length()!=str2.length())
+        return false;
+    int count1[256];
+    int count2[256];
+    memset(count1,-1,sizeof(count1));
+    memset(count2,-1,sizeof(count2));
+    int n=str1.length();
+    for(int i=0;i<n;i++)
+    {
+        if(count1[str2[i]]==-1 && count2[str1[i]]==-1)
+        {
+            count1[str2[i]]=str1[i];
+            count2[str1[i]]=str2[i];
+        }
+        else
+        {
+            if(count1[str2[i]]!=str1[i] || count2[str1[i]]!=str2[i])
+                return false;
+        }
+    }
+    return true;
+}

@@ -1,0 +1,60 @@
+//rearrange the characters such that the same characters are not adjacent
+//uses priority queue
+//https://practice.geeksforgeeks.org/problems/rearrange-characters/0
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Key
+{
+    int f;
+    char c;
+    
+    bool operator<(const Key &k) const
+    {
+        return f<k.f;
+    }
+};
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    string s;
+	    cin>>s;
+	    int count[26]={0};
+	    for(int i=0;i<s.size();i++)
+	        count[s[i]-'a']++;
+	        
+        priority_queue<Key> pq;
+        for(char c='a';c<='z';c++)
+        {
+            if(count[c-'a'])
+                pq.push(Key{count[c-'a'],c});
+        }
+        
+        string ans="";
+        
+        Key prev{-1,'#'};
+        
+        while(!pq.empty())
+        {
+            Key k = pq.top();
+            pq.pop();
+            ans+=k.c;
+            
+            if(prev.f>0)
+                pq.push(prev);
+                
+            k.f--;
+            prev=k;
+        }
+        
+        if(ans.length()!=s.length())
+            cout<<0<<endl;
+        else
+            cout<<1<<endl;
+	}
+	return 0;
+}

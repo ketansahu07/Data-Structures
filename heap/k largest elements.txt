@@ -1,0 +1,25 @@
+//https://practice.geeksforgeeks.org/problems/k-largest-elements3736/1/?track=SPC-Heap&batchId=154
+
+void kLargest(int arr[], int n, int k){
+    priority_queue<int,vector<int>,greater<int>> pq;
+    for(int i=0;i<k;i++)
+        pq.push(arr[i]);
+        
+    for(int i=k;i<n;i++)
+    {
+        if(arr[i]<pq.top())
+            continue;
+        pq.pop();
+        pq.push(arr[i]);
+    }
+    int ans[k];
+    int j=0;
+    while(!pq.empty())
+    {
+        ans[j++]=pq.top();
+        pq.pop();
+    }
+    for(j=k-1;j>=0;j--)
+        cout<<ans[j]<<" ";
+    cout<<endl;
+}

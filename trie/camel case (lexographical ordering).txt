@@ -1,0 +1,88 @@
+//https://practice.geeksforgeeks.org/problems/camel-case0423/0/?track=PC-W9-Tr&batchId=154
+//print the words in lexographical smaller order according to the given pattern
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct TrieNode
+{
+    TrieNode* child[26];
+    bool isEnd;
+    multiset<string> words;
+    TrieNode()
+    {
+        for(int i=0;i<26;i++)
+            child[i]=NULL;
+        isEnd=false;
+    }
+};
+
+void insert(TrieNode* root, string &key)
+{
+    TrieNode* curr = root;
+    for(int i=0;i<key.length();i++)
+    {
+        if(key[i]>='A' && key[i]<='Z')
+        {
+            int temp_index = key[i]-'A';
+            if(curr->child[temp_index]==NULL)
+                curr->child[temp_index] = new TrieNode();
+            curr = curr->child[temp_index];
+        }
+    }
+        curr->isEnd = true;
+        curr->words.insert(key);
+}
+
+void printAllWords(TrieNode* root)
+{
+    if(root->isEnd==true)
+    {
+        for(string s : root->words)
+            cout<<s<<" ";
+    }
+    
+    for(int i=0;i<26;i++)
+    {
+        TrieNode* curr = root->child[i];
+        if(curr!=NULL)
+            printAllWords(curr);
+    }
+}
+
+bool search(TrieNode* root, string &key)
+{
+    TrieNode* curr = root;
+    for(int i=0;i<key.length();i++)
+    {
+        int temp_index = key[i]-'A';
+        if(curr->child[temp_index]==NULL)
+            return false;
+        curr = curr->child[temp_index];
+    }
+    printAllWords(curr);
+    return true;   
+}
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    TrieNode* root = new TrieNode();
+	    int n;
+	    cin>>n;
+	    for(int i=0;i<n;i++)
+	    {
+	        string s;
+	        cin>>s;
+	        insert(root, s);
+	    }
+	    string key;
+	    cin>>key;
+	    if(!search(root, key))
+	        cout<<"No match found";
+	    cout<<endl;
+	}
+	return 0;
+}

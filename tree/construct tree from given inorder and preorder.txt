@@ -1,0 +1,26 @@
+int search(int in[], int low, int high, int key)
+{
+    for(int i=low;i<=high;i++)
+        if(in[i]==key)
+            return i;
+}
+
+Node* buildTree(int in[],int pre[], int inStart, int inEnd)
+{
+//add code here.
+    static int preIndex = 0;
+    if(inStart>inEnd)
+    return NULL;
+    
+    Node* temp = new Node(pre[preIndex++]);
+    
+    if(inStart==inEnd)
+    return temp;
+    
+    int index = search(in,inStart,inEnd,temp->data);
+    
+    temp->left = buildTree(in, pre, inStart, index-1);
+    temp->right = buildTree(in, pre, index+1, inEnd);
+    
+    return temp;
+}

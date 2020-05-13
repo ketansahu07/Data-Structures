@@ -1,0 +1,43 @@
+//https://practice.geeksforgeeks.org/problems/merge-k-sorted-arrays/1/?track=SPC-Heap&batchId=154
+
+struct triplet{
+    int val, apos, vpos;
+    triplet(int v, int ap, int vp)
+    {
+        val = v;
+        apos = ap;
+        vpos = vp;
+    }
+};
+
+struct myCmp{
+    bool operator()(triplet &t1, triplet &t2)
+    {
+        return t1.val>t2.val;
+    }
+};
+
+int *mergeKArrays(int arr[][N], int k)
+{
+    int *ans = new int[k*k];
+    priority_queue<triplet, vector<triplet>, myCmp> pq;
+    for(int i=0;i<k;i++)
+    {
+        triplet t(arr[i][0], i, 0);
+        pq.push(t);
+    }
+    int i=0;
+    while(!pq.empty())
+    {
+        triplet curr = pq.top();
+        pq.pop();
+        ans[i++] = curr.val;
+        int ap = curr.apos, vp = curr.vpos;
+        if(vp+1<k)
+        {
+            triplet t(arr[ap][vp+1], ap, vp+1);
+            pq.push(t);
+        }
+    }
+    return ans;
+}

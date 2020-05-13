@@ -1,0 +1,29 @@
+//https://practice.geeksforgeeks.org/problems/find-the-number-of-islands/1/?track=SPC-Graph&batchId=154
+
+void dfs(vector<int> adj[],int n,int m,vector<vector<bool>> &vis,int i,int j)
+{
+    vis[i][j]=true;
+    for(int x=i-1;x<=i+1;x++)
+        for(int y=j-1;y<=j+1;y++)
+            if(x>=0 && y>=0 && x<n && y<m)
+                if(!(x==i && y==j) && adj[x][y]==1 && !vis[x][y])
+                    dfs(adj,n,m,vis,x,y);
+}
+
+int findIslands(vector<int> adj[], int N, int M) {
+
+    vector<vector<bool>> vis(N,vector<bool>(M,false));
+    int res=0;
+    for(int i=0;i<N;i++)
+    {
+        for(int j=0;j<M;j++)
+        {
+            if(adj[i][j]==1 && !vis[i][j])
+            {
+                res++;
+                dfs(adj,N,M,vis,i,j);
+            }
+        }
+    }
+    return res;
+}

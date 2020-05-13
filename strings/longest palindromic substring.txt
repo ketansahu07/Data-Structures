@@ -1,0 +1,70 @@
+// https://practice.geeksforgeeks.org/problems/longest-palindrome-in-a-string/0/
+// https://www.geeksforgeeks.org/longest-palindrome-substring-set-1/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void printsubstring(string s, int start, int end)
+{
+    for(int i=start;i<=end;i++)
+        cout<<s[i];
+    cout<<endl;
+}
+
+void longestpalisub(string s)
+{
+    int n=s.length();
+    
+    bool dp[n][n];
+    
+    memset(dp,false,sizeof(dp));
+    
+    int maxlength=1;
+    
+    for(int i=0;i<n;i++)
+        dp[i][i]=true;
+        
+    int start=0;
+    for(int i=0;i<n-1;i++)
+    {
+        if(s[i]==s[i+1])
+        {
+            dp[i][i+1]=true;
+            if(start==0)start=i;
+            maxlength=2;
+        }
+    }
+    
+    for(int k=3;k<=n;k++)
+    {
+        for(int i=0;i<n-k+1;i++)
+        {
+            int j=i+k-1;
+            
+            if(dp[i+1][j-1] && s[i]==s[j])
+            {
+                dp[i][j]=true;
+                
+                if(k>maxlength)
+                {
+                    start=i;
+                    maxlength=k;
+                }
+            }
+        }
+    }
+    
+    printsubstring(s,start,start+maxlength-1);
+}
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    string s;
+	    cin>>s;
+	    longestpalisub(s);
+	}
+	return 0;
+}

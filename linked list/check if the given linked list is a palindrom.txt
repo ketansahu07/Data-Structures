@@ -1,0 +1,7 @@
+// traverse the linked list and store the data in a stack.
+// traverse the linked list again and ckeck if the data in the stack are same.
+
+
+
+// An another method is to reverse the second half of the linked list and then treverse the first half
+// and second half and check each element if they are same in a seperate function

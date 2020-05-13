@@ -1,0 +1,98 @@
+//https://practice.geeksforgeeks.org/problems/equilibrium-point/0/
+//0.45sec
+
+#include <iostream>
+using namespace std;
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n,flag=0;
+	    cin>>n;
+	    int a[n],sumfromleft[n],sumfromright[n];
+	    cin>>a[0];
+	    sumfromleft[0]=a[0];
+	    for(int i=1;i<n;i++)
+	    {
+	        cin>>a[i];
+	        sumfromleft[i]=sumfromleft[i-1]+a[i];
+	    }
+	    sumfromright[0]=a[n-1];
+	    if(sumfromright[0]==sumfromleft[n-3])
+        {
+            cout<<n-1<<endl;
+            flag=1;
+        }
+	    else
+	    {
+	        for(int i=1;i<n-2;i++)
+	        {
+	            sumfromright[i]=sumfromright[i-1]+a[n-1-i];
+	            if(sumfromright[i]==sumfromleft[n-i-3])
+                {
+                    cout<<n-i-1<<endl;
+                    flag=1;
+                    break;
+                }
+	        }
+	    }
+	    if(n==1)
+	        cout<<"1"<<endl,flag=1;
+	    else if(n==2)
+	    {
+	        if(a[0]==0) 
+	        {
+	            cout<<"2"<<endl;
+	            flag=1;
+	        }
+	        else if(a[1]==0)
+	        {
+	            cout<<"1"<<endl;
+	            flag=1;
+	        }
+	    }
+	    if(flag==0)
+	        cout<<"-1"<<endl;
+	}
+	return 0;
+}
+======================================================================================================
+a better solution 0.37sec
+======================================================================================================
+#include <iostream>
+using namespace std;
+
+int equi(int a[], int n)
+{
+    int sum=0;
+    int leftsum=0;
+    for(int i=0;i<n;i++)
+        sum+=a[i];
+        
+    for(int i=0;i<n;i++)
+    {
+        sum-=a[i];
+        if(sum==leftsum)
+            return i+1;
+        
+        leftsum+=a[i];
+    }
+    return -1;
+}
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n,flag=0;
+	    cin>>n;
+	    int a[n];
+	    for(int i=0;i<n;i++)
+	    cin>>a[i];
+	    cout<<equi(a,n)<<endl;
+	}
+	return 0;
+}

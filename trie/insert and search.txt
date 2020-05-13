@@ -1,0 +1,72 @@
+//https://practice.geeksforgeeks.org/problems/trie-insert-and-search/0/?track=PC-W9-Tr&batchId=154
+
+#include <iostream>
+using namespace std;
+
+struct TrieNode
+{
+    TrieNode *child[26];
+    bool isEnd;
+    TrieNode()
+    {
+        isEnd = false;
+        for(int i=0;i<26;i++)
+        {
+            child[i]=NULL;
+        }
+    }
+};
+TrieNode *root = new TrieNode();	//this has to be inside the test case loop in case different test case need
+					//different Trie structure
+
+void insert(string &key)
+{
+    TrieNode *curr = root;
+    for(int i=0;i<key.length();i++)
+    {
+        int index = key[i]-'a';
+        if(curr->child[index]==NULL)
+        {
+            curr->child[index] = new TrieNode();
+        }
+        curr = curr->child[index];
+    }
+    curr->isEnd = true;
+}
+
+bool search(string &key)
+{
+    TrieNode* curr = root;
+    for(int i=0;i<key.length();i++)
+    {
+        int index = key[i]-'a';
+        if(curr->child[index]==NULL)
+        {
+            return false;
+        }
+        curr = curr->child[index];
+    }
+    return curr->isEnd;
+}
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+	    int n;
+	    cin>>n;
+	    while(n--)
+	    {
+	        string s;
+	        cin>>s;
+	        insert(s);
+	    }
+	    string key;
+	    cin>>key;
+	    if(search(key))
+	        cout<<1<<endl;
+	    else 
+	        cout<<0<<endl;
+	}
+	return 0;
+}

@@ -1,0 +1,35 @@
+//https://practice.geeksforgeeks.org/problems/reverse-words-in-a-given-string/0
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    string s;
+	    cin>>s;
+	    int i,j;
+	    i=s.length();
+	    j=i;
+	    while(j>=0)
+	    {
+	        if(s[j]=='.')
+	        {
+	            for(int k=j+1;k<i;k++)
+	            {
+	                cout<<s[k];
+	            }
+	            cout<<".";
+	            i=j;
+	        }
+	        j--;
+	    }
+	    for(int k=0;k<i;k++)
+	        cout<<s[k];
+        cout<<endl;
+	}
+	return 0;
+}

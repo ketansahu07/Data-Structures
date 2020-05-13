@@ -1,0 +1,53 @@
+//https://practice.geeksforgeeks.org/problems/x-total-shapes/0/?track=SPC-Graph&batchId=154
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void dfs(vector<char> a[],int i,int j,int n,int m,vector<bool> vis[])
+{
+    if(i<0 || j<0 || i>=n || j>=m || vis[i][j]==true || a[i][j]=='O')
+        return;
+        
+    vis[i][j]=true;
+    
+    dfs(a,i-1,j,n,m,vis);
+    dfs(a,i,j-1,n,m,vis);
+    dfs(a,i+1,j,n,m,vis);
+    dfs(a,i,j+1,n,m,vis);
+}
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n,m;
+	    cin>>n>>m;
+	    vector<char> a[n];
+	    vector<bool> vis[n];
+	    for(int i=0;i<n;i++)
+        {
+	        for(int j=0;j<m;j++)
+            {
+                char x;
+                cin>>x;
+                a[i].push_back(x);
+                vis[i].push_back(false);
+            }
+        }
+        int res=0;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(a[i][j]=='X' && vis[i][j]==false)
+                {
+                    dfs(a,i,j,n,m,vis);
+                    res++;
+                }
+            }
+        }
+        cout<<res<<endl;
+	}
+	return 0;
+}

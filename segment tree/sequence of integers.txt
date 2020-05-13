@@ -1,0 +1,181 @@
+//there's an array of size n with n elements and given x we have to find the right most element in each subarrays of size x 
+//such that the element has the maximum number of distinct prime factors in that subarray
+//and finally among all such elements print the minimum
+//eg: arr = {2,4,6,10,5}
+//x=3
+//output: 6
+//coz in {2,4,6} => 6 , in {4,6,10} => 10, in {6,10,5} => 10
+//among 6, 10, 10 minimum is 6.
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define F first
+#define S second
+#define pb push_back
+#define MAX 1000001
+
+ll spf[MAX];
+vector<ll> adj[MAX];
+
+inline ll readInt()                           //this function is for reading faster inputs
+{                                             
+       ll number = 0;
+       char c = getchar_unlocked();           //getchar_unlocked takes fastest input
+       while(c<'0' || c > '9')
+            c = getchar_unlocked();
+       while(c>='0'&&c<='9')
+       {
+            number = (number<<3)+(number<<1)+c-'0';
+            c = getchar_unlocked();
+       }
+       return number;
+}
+
+struct Node
+{
+    ll num;
+    ll pfact;
+    Node()
+    {
+        num=0;
+        pfact=0;
+    }
+};
+
+void sieve()
+{
+    spf[1] = 1;
+        // marking smallest prime factor for every
+        // number to be itself.
+    for (ll i=2; i<MAX; i++)
+        spf[i] = i;
+
+
+    for (ll i=2; i*i<MAX; i++)
+    {
+        // checking if i is prime
+        if (spf[i] == i)
+        {
+            // marking SPF for all numbers divisible by i
+            for (ll j=i*i; j<MAX; j+=i)
+
+                // marking spf[j] if it is not
+                // previously marked
+                if (spf[j]==j)
+                    spf[j] = i;
+        }
+    }
+}
+
+void getdistinctprime(ll n)
+{
+    if(adj[n].size()>0)
+        return;
+    ll index=1,x=n;
+
+    if(x!=1)
+        adj[n].push_back(spf[x]);
+    x=x/spf[x];
+    // Push all distinct prime factor in adj
+    while (x != 1)
+    {
+        if (adj[n][index-1]!=spf[x])
+        {
+            adj[n].push_back(spf[x]);
+            index+=1;
+        }
+        x = x / spf[x];
+    }
+}
+
+struct Node getresult(Node *tree, ll qs, ll qe, ll ss, ll se, ll si)
+{
+    struct Node temp;
+    if(qs>se || qe<ss)
+    {
+        temp.num = -1;
+        temp.pfact = -1;
+        return temp;
+    }
+
+    if(qs<=ss && qe>=se)
+        return tree[si];
+
+    ll mid = (ss + se)/2;
+    Node left = getresult(tree, qs, qe, ss, mid, 2*si+1);
+    Node right = getresult(tree, qs, qe, mid+1, se, 2*si+2);
+    if(left.num==-1) return right;
+    if(right.num==-1) return left;
+    return (left.pfact>right.pfact)?left:right;
+}
+
+void constructUtil(Node *tree, ll a[], ll ss, ll se, ll si)
+{
+    if(ss==se)
+    {
+        tree[si].num = a[ss];
+        ll temp;
+        if(a[ss]!=0)
+        {
+            getdistinctprime(a[ss]);
+            temp = adj[a[ss]].size();
+        }
+        else
+            temp = 0;
+        tree[si].pfact = temp;
+        //cout<<"check tree => "<<tree[si].num<<" temp value => "<<tree[si].pfact<<endl;
+        return;
+    }
+
+    ll mid = ss + (se-ss)/2;
+    constructUtil(tree, a, ss, mid, 2*si+1);
+    constructUtil(tree, a, mid+1, se, 2*si+2);
+    tree[si].num = (tree[2*si+1].pfact>tree[2*si+2].pfact)?tree[2*si+1].num:tree[2*si+2].num;
+    tree[si].pfact = (tree[2*si+1].pfact>tree[2*si+2].pfact)?tree[2*si+1].pfact:tree[2*si+2].pfact;
+}
+
+Node* constructST(ll a[],ll n)
+{
+    ll x = ceil(log2(n));
+    ll m_size = 2*pow(2,x)-1;
+    Node *tree = new Node[m_size];
+    constructUtil(tree, a, 0, n-1, 0);
+    return tree;
+}
+
+int main()
+{
+    sieve();
+
+    ll n,x;
+    //cin>>x>>n;
+    x = readInt();
+    n = readInt();
+    ll a[n];
+    for(ll i=0;i<n;i++)
+    {
+        // cin>>a[i];
+        a[i] = readInt();
+    }
+    
+    Node *tree = constructST(a, n);
+
+    /**for(ll i=0;i<9;i++)
+    {
+        cout<<tree[i].num<<" ==> "<<tree[i].pfact<<endl;
+    }**/
+
+    ll res=999999;
+    for(ll i=0;i<n-x+1;i++)
+    {
+        ll qs=i;
+        ll qe=i+x-1;
+        Node result = getresult(tree, qs, qe, 0, n-1, 0);
+        //cout<<result.num<<" ";
+        res = min(res,result.num);
+    }
+    //cout<<endl;
+    cout<<res<<endl;
+    return 0;
+}

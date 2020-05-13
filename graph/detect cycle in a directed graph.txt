@@ -1,0 +1,35 @@
+// https://practice.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1/?track=SPC-Graph&batchId=154
+
+bool dfs_mod(vector<int> adj[],int u,bool visited[],bool in_rec[])
+{
+    visited[u]=true;
+    in_rec[u]=true;
+    
+    for(int v:adj[u])
+    {
+        if(visited[v]==false && dfs_mod(adj,v,visited,in_rec))
+            return true;
+        else if(in_rec[v]==true)
+            return true;
+    }
+    in_rec[u]=false;
+    return false;
+}
+
+bool isCyclic(int V, vector<int> adj[])
+{
+    bool visited[V];
+    bool in_rec[V];
+    memset(visited,false,sizeof(visited));
+    memset(in_rec,false,sizeof(in_rec));
+    
+    for(int i=0;i<V;i++)
+    {
+        if(visited[i]==false)
+        {
+            if(dfs_mod(adj,i,visited,in_rec))
+                return true;
+        }
+    }
+    return false;
+}

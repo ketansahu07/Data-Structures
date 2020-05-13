@@ -1,0 +1,59 @@
+//https://practice.geeksforgeeks.org/problems/interleaved-strings/1/?track=sp-strings&batchId=152
+
+#include<bits/stdc++.h>
+using namespace std;
+
+bool isInterleave(string a, string b, string c);
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string a, b, c;
+        cin>>a;
+        cin>>b;
+        cin>>c;
+        cout<<isInterleave(a,b,c)<<endl;
+    }
+    return 0;
+}
+
+bool isInterleave(string A, string B, string C)
+{
+bool dp[101][101];
+int n=A.length();
+int m=B.length();
+if(n+m!=C.length())
+return false;
+
+for(int i=0;i<=n;i++)
+for(int j=0;j<=m;j++)
+dp[i][j]=false;
+
+dp[n][m]=true;
+
+for(int i=n-1;i>=0;i--)
+dp[i][m]=(A[i]==C[i+m] && dp[i+1][m]);
+for(int j=m-1;j>=0;j--)
+dp[n][j]=(B[j]==C[n+j] && dp[n][j+1]);
+
+for(int i=n-1;i>=0;i--)
+{
+for(int j=m-1;j>=0;j--)
+{
+dp[i][j]=(A[i]==C[i+j] && dp[i+1][j])
+||(B[j]==C[i+j] && dp[i][j+1]);
+}
+}
+
+/**for(int i=0;i<=n;i++)
+{
+    for(int j=0;j<=m;j++)
+    {
+        cout<<dp[i][j]<<"\t";
+    }
+    cout<<endl;
+}**/
+return dp[0][0];
+}

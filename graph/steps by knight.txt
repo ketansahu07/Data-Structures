@@ -1,0 +1,72 @@
+// https://practice.geeksforgeeks.org/problems/steps-by-knight/0/?track=SPC-Graph&batchId=154
+
+#include <bits/stdc++.h>
+using namespace std;
+
+bool vis[21][21];
+
+bool isSafe(int x,int y,int n)
+{
+    if(x<1 || y<1 || x>n || y>n || vis[x][y]==true)
+        return false;
+    return true;
+}
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n;
+	    cin>>n;
+	    int k_x,k_y;
+	    int t_x,t_y;
+	    cin>>k_x>>k_y;
+	    cin>>t_x>>t_y;
+	    
+	    memset(vis,false,sizeof(vis));
+	    queue<pair<int,int>> q;
+	    q.push({k_x,k_y});
+	    q.push({-1,-1});
+        vis[k_x][k_y]=true;
+        int steps=0;
+	    while(!q.empty())
+	    {
+	        pair<int,int> p = q.front();
+	        q.pop();
+	        if(p.first==-1 && p.second==-1)
+            {
+                if(q.empty())
+                    break;
+                steps++;
+                q.push({-1,-1});
+                continue;
+            }
+            else if(p.first==t_x && p.second==t_y)
+                break;
+            if(isSafe(p.first-2,p.second-1,n))
+                {q.push({p.first-2,p.second-1}); vis[p.first-2][p.second-1]=true;}
+            if(isSafe(p.first-2,p.second+1,n))
+                {q.push({p.first-2,p.second+1}); vis[p.first-2][p.second+1]=true;}
+            
+            if(isSafe(p.first+2,p.second-1,n))
+                {q.push({p.first+2,p.second-1}); vis[p.first+2][p.second-1]=true;}
+            if(isSafe(p.first+2,p.second+1,n))
+                {q.push({p.first+2,p.second+1}); vis[p.first+2][p.second+1]=true;}
+            
+            if(isSafe(p.first-1,p.second-2,n))
+                {q.push({p.first-1,p.second-2}); vis[p.first-1][p.second-2]=true;}
+            if(isSafe(p.first+1,p.second-2,n))
+                {q.push({p.first+1,p.second-2}); vis[p.first+1][p.second-2]=true;}
+            
+            if(isSafe(p.first-1,p.second+2,n))
+                {q.push({p.first-1,p.second+2}); vis[p.first-1][p.second+2]=true;}
+            if(isSafe(p.first+1,p.second+2,n))
+                {q.push({p.first+1,p.second+2}); vis[p.first+1][p.second+2]=true;}
+                
+            // cout<<"Size of queue => "<<q.size()<<endl;
+	    }
+	    cout<<steps<<endl;
+	}
+	return 0;
+}

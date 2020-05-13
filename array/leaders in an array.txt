@@ -1,0 +1,43 @@
+//https://practice.geeksforgeeks.org/problems/leaders-in-an-array/0
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void findLeaders(int a[], int n)
+{
+    vector<int> lead;
+    lead.push_back(a[n-1]);
+    int max_till_here=n-1;
+    for(int i=n-2;i>=0;i--)
+    {
+        if(a[i]>=a[max_till_here])
+        {
+            lead.push_back(a[i]);
+            max_till_here=i;
+        }
+    }
+    reverse(lead.begin(),lead.end());
+    for(auto i: lead)
+    {
+        cout<<i<<" ";
+    }
+    cout<<endl;
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        int a[n];
+        for(int i=0;i<n;i++)
+        {
+            cin>>a[i];
+        }
+        findLeaders(a, n);
+    }
+    return 0;
+}

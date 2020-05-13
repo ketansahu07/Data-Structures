@@ -1,0 +1,48 @@
+#include <iostream>
+using namespace std;
+
+int largestsub(int a[], int n, int k)
+{
+    int maxsum[n];
+    maxsum[0] = a[0];
+    int curmax = a[0];
+    for(int i=1;i<n;i++)
+    {
+        curmax = max(a[i],curmax+a[i]);
+        maxsum[i] = curmax;
+    }
+    
+    int sum = 0;
+    for(int i=0;i<k;i++)
+    sum+=a[i];
+    
+    // cout<<sum<<endl;
+    
+    int result = sum;
+    for(int i=k;i<n;i++)
+    {
+        sum = sum+a[i]-a[i-k];
+        
+        result = max(result,sum);
+        
+        result = max(result,sum+maxsum[i-k]);
+    }
+    return result;
+}
+
+int main() {
+	//code
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n,k;
+	    cin>>n;
+	    int a[n];
+	    for(int i=0;i<n;i++)
+	    cin>>a[i];
+	    cin>>k;
+	    cout<<largestsub(a,n,k)<<endl;
+	}
+	return 0;
+}

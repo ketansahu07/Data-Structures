@@ -1,0 +1,121 @@
+//https://practice.geeksforgeeks.org/problems/range-min-max-queries/0/?track=PC-W9-ST&batchId=154
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// Util is represented as __ "double underscore"
+
+struct node
+{
+    int min__;
+    int max__;
+};
+
+void updatetree(struct node *tree, int ss, int se, int si, int i, int val)
+{
+    if(i>se || i<ss)
+        return;
+    
+    if(ss==se){
+        tree[si].min__ = val;
+        tree[si].max__ = val;
+    }
+    
+    if(se>ss){
+        int mid = (ss+se)/2;
+        updatetree(tree, ss, mid, 2*si+1, i, val);
+        updatetree(tree, mid+1, se, 2*si+2, i, val);
+        tree[si].min__ = min(tree[2*si+1].min__, tree[2*si+2].min__);
+        tree[si].max__ = max(tree[2*si+1].max__, tree[2*si+2].max__);
+    }
+}
+
+struct node getminmax(struct node *tree, int ss, int se, int si, int qs, int qe)
+{
+    struct node temp, left, right;
+    
+    if (se < qs || ss > qe)
+    {
+        temp.min__ = 99999; 
+        temp.max__ = -99999; 
+        return temp;
+    }
+    
+    if(qs<=ss && qe>=se)
+    {
+        return tree[si]; 
+    }
+    
+    int mid = (ss+se)/2;
+    
+    left = getminmax(tree, ss, mid, 2*si+1, qs, qe);
+    right = getminmax(tree, mid+1, se, 2*si+2, qs, qe);
+    temp.min__ = min(left.min__, right.min__);
+    temp.max__ = max(left.max__, right.max__);
+    
+    return temp;
+}
+
+void construct__(struct node *tree, int arr[], int ss, int se, int si)
+{
+    if(ss==se)
+    {
+        tree[si].min__ = arr[ss];
+        tree[si].max__ = arr[ss];
+        return ;
+    }
+    
+    int mid = (ss+se)/2;
+    construct__(tree, arr, ss, mid, 2*si+1);
+    construct__(tree, arr, mid+1, se, 2*si+2);
+    
+    tree[si].min__ = min(tree[2*si+1].min__, tree[2*si+2].min__);
+    tree[si].max__ = max(tree[2*si+1].max__, tree[2*si+2].max__);
+}
+
+struct node* construct(int arr[], int n)
+{
+    int x = (int)(ceil(log2(n)));
+    
+    int max_size = 2*(pow(2,x))-1;
+    
+    struct node *tree = new struct node[max_size];
+    
+    construct__(tree, arr, 0, n-1, 0);
+    
+    return tree;
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n,q;
+        cin>>n>>q;
+        int arr[n];
+        for(int i=0;i<n;i++)
+            cin>>arr[i];
+            
+        struct node *tree = construct(arr, n);
+        
+        while(q--)
+        {
+            char ch;
+            int x, y;
+            cin>>ch;
+            cin>>x>>y;
+            if(ch=='G')
+            {
+                struct node res = getminmax(tree, 0, n-1, 0, x, y);
+                cout<<res.min__<<" "<<res.max__<<endl;
+            }
+            else
+            {
+                updatetree(tree, 0, n-1, 0, x, y);
+            }
+        }
+    }
+    return 0;
+}

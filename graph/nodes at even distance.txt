@@ -1,0 +1,138 @@
+//https://practice.geeksforgeeks.org/problems/nodes-at-even-distance/0/?track=SPC-Graph&batchId=154
+===================================================================================================
+my solution 0.09 sec
+===================================================================================================
+#include <bits/stdc++.h>
+using namespace std;
+
+void dfs(vector<int> adj[],int u,bool vis[],int hops,int dis[])
+{
+    if(vis[u]==true)
+        return;
+    vis[u]=true;
+    dis[u]=hops;
+    for(int v:adj[u])
+    {
+        if(vis[v]==false)
+            dfs(adj,v,vis,hops+1,dis);
+    }
+}
+
+int evenHops(vector<int> adj[],int n)
+{
+    bool vis[n+1];
+    memset(vis,false,sizeof(vis));
+    int dis[n+1]={0};
+    dfs(adj,1,vis,0,dis);
+    int even=0;
+    int odd=0;
+    for(int i=1;i<=n;i++)
+    {
+        if(dis[i]%2==0)
+            even++;
+        else
+            odd++;
+    }
+    int ans=(even*(even-1)+odd*(odd-1))/2;
+    return ans;
+}
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n;
+	    cin>>n;
+	    vector<int> adj[n+1];
+	    for(int i=1;i<n;i++)
+	    {
+	        int x,y;
+	        cin>>x>>y;
+	        adj[x].push_back(y);
+	        adj[y].push_back(x);
+	    }
+	    cout<<evenHops(adj,n)<<endl;
+	}
+	return 0;
+}
+================================================================================================
+better solution 0.01 sec (don't know how even tho everything is similar)
+================================================================================================
+#include <bits/stdc++.h>
+using namespace std;
+
+// Dfs function to find count of nodes at
+// even distance
+void dfs(vector<int> graph[], int node, int dist[], bool vis[], int c)
+{
+    if (vis[node]) {
+        return;
+    }
+    // Set flag as true for current
+    // node in visited array
+    vis[node] = true;
+
+    // Insert the distance in
+    // dist array for current
+    // visited node u
+    dist[node] = c;
+
+    for (int i = 0; i < graph[node].size(); i++) {
+        // If its neighbours are not vis,
+        // run dfs for them
+        if (!vis[graph[node][i]]) {
+            dfs(graph, graph[node][i], dist, vis, c + 1);
+        }
+    }
+}
+
+int evenHops(vector<int> graph[], int n)
+{
+    // bool array to
+    // mark visited nodes
+    bool vis[n + 1] = { false };
+
+    // Integer array to
+    // compute distance
+    int dist[n + 1] = { 0 };
+
+    dfs(graph, 1, dist, vis, 0);
+
+    int even = 0, odd = 0;
+
+    // Traverse the distance array
+    // and count the even and odd levels
+    for (int i = 1; i <= n; i++) {
+        if (dist[i] % 2 == 0) {
+            even++;
+        }
+        else {
+            odd++;
+        }
+    }
+
+    int ans = ((even * (even - 1)) + (odd * (odd - 1))) / 2;
+
+    return ans;
+}
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n;
+	    cin>>n;
+	    vector<int> adj[n+1];
+	    for(int i=1;i<n;i++)
+	    {
+	        int x,y;
+	        cin>>x>>y;
+	        adj[x].push_back(y);
+	        adj[y].push_back(x);
+	    }
+	    cout<<evenHops(adj,n)<<endl;
+	}
+	return 0;
+}

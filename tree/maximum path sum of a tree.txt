@@ -1,0 +1,24 @@
+int findMaxUtil(Node* root, int &res)
+{
+    if(!root) return 0;
+    
+    int l = findMaxUtil(root->left,res);
+    int r = findMaxUtil(root->right,res);
+    
+    int max_with_one_child = max(max(l,r)+root->data, root->data);
+    
+    int max_with_both_child = max(max_with_one_child, l+r+root->data);
+    
+    res = max(res, max_with_both_child);
+    
+    return max_with_one_child;
+}
+
+int maxPathSum(struct Node *root)
+{
+//add code here.
+int res = INT_MIN;
+
+findMaxUtil(root,res);
+return res;
+}

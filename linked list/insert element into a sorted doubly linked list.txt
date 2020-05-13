@@ -1,0 +1,39 @@
+// https://www.hackerrank.com/challenges/insert-a-node-into-a-sorted-doubly-linked-list/problem?h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen
+
+DoublyLinkedListNode* sortedInsert(DoublyLinkedListNode* head, int data) {
+    if(head==NULL)
+        return new DoublyLinkedListNode(data);
+    DoublyLinkedListNode* temp = head;
+    DoublyLinkedListNode* temp2 = new DoublyLinkedListNode(data);
+    if(temp->data>data)
+    {
+        temp->prev=temp2;
+        temp2->next=temp;
+        return temp2;
+    }
+
+    while(temp->next!=NULL)
+    {
+        if(temp->data>data)
+        {
+            temp->prev->next = temp2;
+            temp2->prev = temp->prev;
+            temp2->next = temp;
+            temp->prev=temp2;
+            return head;
+        }
+        temp = temp->next;
+    }
+    if(temp->data>data && temp->next==NULL)
+    {
+        temp->prev->next = temp2;
+        temp2->prev = temp->prev;
+        temp2->next = temp;
+    }
+    else if(temp->next==NULL)
+    {
+        temp->next=temp2;
+        temp2->prev=temp;
+    }
+    return head;
+}

@@ -1,0 +1,23 @@
+void dfs(int s, vector<int> g[], bool vis[])
+{
+    
+    stack<int> m;
+    m.push(s);
+    while(!m.empty())
+    {
+        int temp = m.top();
+        m.pop();
+        if(!vis[temp])
+        {
+            vis[temp]=1;
+            cout<<temp<<" ";
+        }
+        for(int i=0;i<g[temp].size();i++)
+        {
+            if(vis[g[temp][i]]==0)
+            {
+                m.push(g[temp][i]);
+            }
+        }
+    }
+}

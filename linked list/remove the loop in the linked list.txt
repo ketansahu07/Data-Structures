@@ -1,0 +1,21 @@
+void removeTheLoop(Node *head)
+{
+     if(!head) return;
+     
+     unordered_set<Node*> m;
+     Node *pr = head, *cur = head;
+     while(cur!=NULL)
+     {
+         
+         if(m.find(cur)!=m.end())
+         {
+             pr->next = NULL;
+             return;
+         }
+         
+         m.insert(cur);
+         
+         pr = cur;
+         cur = cur->next;
+     }
+}

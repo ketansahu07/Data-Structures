@@ -1,0 +1,13 @@
+int leftLeafSum(Node* root)
+{
+    // Code here 
+    int ans = 0;
+    if(!root) return ans;
+    
+    if(root->left && root->left->left==NULL && root->left->right==NULL)
+        ans += root->left->data;
+    else
+        ans += leftLeafSum(root->left);
+    ans += leftLeafSum(root->right);
+    return ans;
+}
