@@ -1,0 +1,14 @@
+//https://practice.geeksforgeeks.org/problems/frequency-of-array-elements-1587115620/1/?track=SPCF-Arrays&batchId=154
+
+void printfrequency(int arr[], int n)
+{ 
+    int max_ele = n+1;
+    for(int i=0;i<n;i++)
+        arr[(arr[i]-1)%max_ele]+=max_ele;
+    for(int i=0;i<n;i++)
+        cout<<arr[i]/max_ele<<" ";
+} 
+
+Takes O(1) extra space as required;
+1)For all elements (arr[i]-1)%max_ele gives the value at which index is added with max_ele for every occurrence of the value.
+2)Print out the freq. as it is clearly the number of times max_ele was added.

@@ -1,5 +1,49 @@
 // https://practice.geeksforgeeks.org/problems/stock-buy-and-sell/0
+=================================================================================================
+O(n) solution
+=================================================================================================
+struct Interval
+{
+    int buy;
+    int sell;
+};
 
+void stockBuySell(int price[], int n)
+{
+    int i=0;
+    Interval res[n/2+1];
+    int count=0;
+    while(i<n-1)
+    {
+        while((i<n-1) && price[i+1]<=price[i])
+            i++;
+        
+        if(i==n-1)
+            break;
+        
+        res[count].buy = i++;
+        
+        while((i<n) && price[i]>=price[i-1])
+            i++;
+        
+        res[count].sell = i-1;
+        count+=1;
+    }
+    if(count)
+    {
+        for(int j=0;j<count;j++)
+        {
+            cout<<"("<<res[j].buy<<" "<<res[j].sell<<")"<<" ";    
+        }
+    }
+    else
+        cout<<"No Profit";
+
+}
+
+=================================================================================================
+not so good solution O(n2)
+=================================================================================================
 #include<bits/stdc++.h>
 using namespace std;
 
