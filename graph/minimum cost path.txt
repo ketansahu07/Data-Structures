@@ -1,0 +1,89 @@
+//https://practice.geeksforgeeks.org/problems/minimum-cost-path/0/?track=SPC-GA&batchId=154
+
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+vector<int> vi = {1, -1, 0, 0};
+vector<int> vj = {0, 0, 1, -1};
+ 
+struct node
+{
+    int value;
+    int x, y;
+};
+
+struct mycmp{
+    bool operator()(node const &a, node const &b)
+    {
+        return a.value>b.value;
+    }
+};
+
+bool is_safe(int x, int y, int n)
+{
+    if(x<0 || x>=n || y<0 || y>=n)
+        return false;
+        
+    return true;
+}
+
+ll min_cost(int adj[][100], int n)
+{
+    ll dist[n][n];
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
+            dist[i][j]=9999999;
+    priority_queue<node, vector<node>, mycmp> pq;
+    
+    struct node m;
+    m.value = adj[0][0];
+    m.x = 0;
+    m.y = 0;
+    dist[0][0]=adj[0][0];
+    
+    pq.push(m);
+    while(!pq.empty())
+    {
+        node foo = pq.top();
+        pq.pop();
+        
+        if(foo.value!=dist[foo.x][foo.y])
+        {
+            // cout<<"I won't let this run\n";
+            continue;
+        }
+        for(int i=0;i<4;i++)
+        {
+            if(is_safe(foo.x+vi[i],foo.y+vj[i],n) && dist[foo.x+vi[i]][foo.y+vj[i]] > foo.value + adj[foo.x+vi[i]][foo.y+vj[i]])
+            {
+                dist[foo.x+vi[i]][foo.y+vj[i]] = (ll)foo.value + (ll)adj[foo.x+vi[i]][foo.y+vj[i]];
+                
+                if(foo.x+vi[i]==n-1 && foo.y+vj[i]==n-1)
+                    return dist[n-1][n-1];
+                
+                m.value = dist[foo.x+vi[i]][foo.y+vj[i]];
+                m.x = foo.x+vi[i];
+                m.y = foo.y+vj[i];
+                pq.push(m);
+            }
+        }
+    }
+    return dist[n-1][n-1];
+}
+
+int main() {
+	int t,n;
+	cin>>t;
+	while(t--)
+	{
+	    cin>>n;
+	    int adj[100][100];
+	    for(int i=0;i<n;i++)
+	        for(int j=0;j<n;j++)
+	            cin>>adj[i][j];
+	
+	    cout<<min_cost(adj,n)<<endl;
+	}
+	return 0;
+}

@@ -1,0 +1,76 @@
+//https://practice.geeksforgeeks.org/problems/circle-of-strings/0/?track=SPC-GA&batchId=154
+
+// graph soln --- https://www.geeksforgeeks.org/given-array-strings-find-strings-can-chained-form-circle/
+
+//backtracking is used here
+
+#include <bits/stdc++.h>
+using namespace std;
+#define PB push_back
+
+bool backtrackUtil(vector<string> arr, string str, int in, int n, bool f_edge[], bool b_edge[], int count)
+{
+    string temp;
+    int len = str.length();
+
+    b_edge[in]=1;
+    for(int i=0;i<n;i++)
+    {
+        temp = arr[i];
+        
+        if(f_edge[i]==0 && in!=i && str[len-1]==temp[0])
+        {
+            f_edge[i]=1;
+            
+            if(count==n || backtrackUtil(arr, temp, i, n, f_edge, b_edge, count+1))
+                return true;
+            
+            f_edge[i]=0;
+        }
+    }
+    b_edge[in]=0;
+    
+    return false;
+}
+
+bool backtrack(vector<string> arr, int n)
+{
+    if(n==0)
+        return 0;
+    if(n==1)
+    {
+        int len = arr[0].length();
+        if(arr[0][0]==arr[0][len-1])
+            return 1;
+        else
+            return 0;
+    }
+    bool front_edge[n];
+    bool back_edge[n];
+    memset(front_edge, 0, sizeof(front_edge));
+    memset(back_edge, 0, sizeof(back_edge));
+    return backtrackUtil(arr, arr[0], 0, n, front_edge, back_edge, 1);
+}
+
+int main() {
+	int t;
+    int n;
+	string s;
+	cin>>t;
+	while(t--)
+	{
+	    cin>>n;
+	    vector<string> arr;
+	    for(int i=0;i<n;i++)
+        {
+            cin>>s;
+            arr.PB(s);
+        }
+        if(backtrack(arr, n))
+            cout<<1;
+        else
+            cout<<0;
+        cout<<endl;
+	}
+	return 0;
+}
