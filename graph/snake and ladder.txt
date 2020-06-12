@@ -1,0 +1,77 @@
+// asked in many companies 
+
+#include<bits/stdc++.h>
+using namespace std;
+
+struct cell
+{
+    int v;
+    int dist;
+};
+
+// using bfs to find the shortest path
+int getMinDiceThrow(int move[], int N)
+{
+    queue<cell> q;
+    
+    bool *visited = new bool[N+1];
+    for(int i=0;i<N+1;i++)
+        visited[i] = false;
+    
+    visited[1]=1;
+    cell peach;
+    peach.v = 1;
+    peach.dist = 0;
+    q.push(peach);
+    
+    cell res;
+    while(q.empty()==false)
+    {
+        res = q.front();
+        int v = res.v;
+        q.pop();
+        
+        // if temp vertex number is the last cell, break
+        if(v==N)
+            break;
+        
+        for(int j=(v+1);j<=(v+6) && j<N+1;j++)
+        {
+            if(visited[j]==false)
+            {
+                cell temp;
+                temp.dist = (res.dist+1);
+                
+                visited[j] = 1;
+                
+                if(move[j]!=-1)
+                    temp.v = move[j];
+                else
+                    temp.v = j;
+                    
+                q.push(temp);
+            }
+        }
+    }
+    return res.dist;
+}
+
+int main()
+{
+    int t,n,x,y;
+    int move[31];
+    cin>>t;
+    while(t--)
+    {
+        for(int i=0;i<31;i++)
+            move[i]=-1;
+        cin>>n;
+        for(int i=0;i<n;i++)
+        {
+            cin>>x>>y;
+            move[x]=y;
+        }
+        cout<<getMinDiceThrow(move, 30)<<endl;
+    }
+    return 0;
+}

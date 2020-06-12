@@ -1,0 +1,65 @@
+//https://practice.geeksforgeeks.org/problems/alien-dictionary/1/?track=SPC-GA&batchId=154
+// logic is to make a graph of vertices equal to the given number of alphabets in the alien language and the take pair wise words in the dictionary from starting to end and for each pair check each char in them and if the char mismatch then make an edge from word1's char to word2's char and when done with every such pair implement topology sort on the graph created.
+
+int min(int x, int y) 
+{ 
+    return (x < y)? x : y; 
+} 
+
+void topo_sort_util(vector<int> adj[], int i, bool visited[], stack<int> &stk)
+{
+    visited[i] = 1;
+    vector<int>::iterator j;
+    for(j=adj[i].begin();j!=adj[i].end();++j)
+    {
+        if(visited[*j]==false)
+            topo_sort_util(adj, *j, visited, stk);
+    }
+    stk.push(i);
+}
+
+string topological_sort(vector<int> adj[], int K)
+{
+    string res="";
+    stack<int> stk;
+    bool visited[K];
+    memset(visited, 0, sizeof(visited));
+    
+    for(int i=0;i<K;i++)
+    {
+        if(visited[i]==false)
+            topo_sort_util(adj, i, visited, stk);
+    }
+    
+    // store the stack back into string and return
+    while(stk.empty()==false)
+    {
+        res += (char)(stk.top()+'a');
+        stk.pop();
+    }
+    return res;
+}
+
+/*
+dict : array of strings denoting the words in alien langauge
+N : Size of the dictionary
+K : Number of characters
+*/
+string findOrder(string dict[], int N, int K) {
+    vector<int> adj[K];
+    for(int i=0;i<N-1;i++)
+    {
+        string word1 = dict[i];
+        string word2 = dict[i+1];
+        for(int j=0;j<min(word1.length(), word2.length());j++)
+        {
+            if(word1[j]!=word2[j])
+            {
+                adj[word1[j]-'a'].push_back(word2[j]-'a');
+                break;
+            }
+        }
+    }
+    
+    return topological_sort(adj, K);
+}

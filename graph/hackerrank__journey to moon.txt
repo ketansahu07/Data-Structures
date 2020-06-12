@@ -1,0 +1,95 @@
+// https://www.hackerrank.com/challenges/journey-to-the-moon/problem
+// solution using union set (faster than dfs or bfs)
+// someone elses solution below
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+#define ull unsigned long long int
+
+using namespace std;
+
+struct node
+{
+	int parent;
+	ull compSz;
+};
+
+void initialize(vector<node> &nodes, int n)
+{
+	for(int i =1; i <= n; ++i)
+	{
+		nodes[i].parent=i;
+		nodes[i].compSz=1;
+	}
+	return;
+}
+
+int qfind(int nid, vector<node> &nodes)
+{
+	if(nodes[nid].parent!=nid)
+		nodes[nid].parent = qfind(nodes[nid].parent, nodes);
+	return nodes[nid].parent;
+}
+
+void qunion(int nid1, int nid2, vector<node> &nodes)
+{
+	nid1 = qfind(nid1, nodes);
+	nid2 = qfind(nid2, nodes);
+	if(nid1!=nid2)
+	{
+		ull compsz1 = nodes[nid1].compSz;
+		ull compsz2 = nodes[nid2].compSz;
+		if(compsz1 > compsz2)
+		{
+			nodes[nid2].parent = nid1;
+			nodes[nid1].compSz = compsz1 + compsz2;
+		}
+		else
+		{
+			nodes[nid1].parent = nid2;
+			nodes[nid2].compSz = compsz1 + compsz2;
+		}
+	}
+	return;
+}
+
+int main()
+{
+	int n, l, id1, id2;
+	cin >> n >> l;
+	vector<node> nodes(n+1);
+	initialize(nodes, n);
+	
+	while(l--)
+	{
+		cin >> id1 >> id2;
+		qunion(1+id1, 1+id2, nodes);
+	}
+
+	vector<ull> v;
+	v.push_back(0);
+	ull count = 0;
+
+	for(int i = 1; i <= n; ++i)
+	{
+		if(nodes[i].parent == i)
+		{
+			count += nodes[i].compSz;
+			v.push_back(count);
+		}
+	}
+	count = 0;
+	vector<ull>::iterator bit = v.begin(), eit = v.end();
+	++bit;
+	--eit;
+	while(bit != eit)
+	{
+		count += ((*bit - *(bit - 1)) * (*eit - *bit));
+		++bit;
+	}
+
+	cout << count;
+	return 0;
+}

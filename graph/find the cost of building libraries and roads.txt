@@ -1,0 +1,59 @@
+//https://www.hackerrank.com/challenges/torque-and-development/problem?isFullScreen=false
+// an awesome union and set solution
+
+#include <iostream>
+#include <cmath>
+#include <stdint.h>
+#define nmax 100001
+#define cmax 100001
+#define mmax 100001
+using namespace std;
+uint64_t n, m, cr, cl, nrm, t[nmax], siz[nmax], q;
+uint64_t Find(uint64_t x)
+{
+    while(t[x]!=0)
+    {
+        x=t[x];
+    }
+    return x;
+}
+void Union(uint64_t rx, uint64_t ry)
+{
+    if(siz[rx]> siz[ry]) {t[ry]=rx; siz[rx]+=siz[ry];}
+    else {t[rx]=ry; siz[ry]+=siz[rx];}
+}
+void citire()
+{
+    uint64_t i;
+    uint64_t j, x, y, rx,  ry, nrcomp;
+    cin>>q;
+    for(i=1; i<=q; i++)
+    {
+        cin>>n>>m>>cl>>cr;
+        nrcomp=n;
+        nrm=0;
+        for(j=1; j<=n; j++) {t[j]=0;siz[j]=1;}
+
+        for(j=1; j<=m; j++)
+        {
+            cin>>x>>y;
+            rx=Find(x);
+            ry=Find(y);
+            if(rx!=ry)
+            {
+                nrm++;
+                Union(rx, ry);
+                nrcomp--;
+            }
+        }
+
+        if(cl*n> nrm*cr+nrcomp*cl) cout<<nrm*cr+nrcomp*cl<<"\n";
+        else cout<<cl*n<<"\n";
+
+    }
+}
+int main()
+{
+    citire();
+    return 0;
+}
